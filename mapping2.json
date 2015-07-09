@@ -1,0 +1,67 @@
+{
+    "stats": {
+        "properties": {
+            "cf1": {
+                "properties": {
+                    "ACTUAL_ELAPSED_TIME": {
+                        "type": "long"
+                    },
+                    "AIR_TIME": {
+                        "type": "long"
+                    },
+                    "ARR_DELAY": {
+                        "type": "long"
+                    },
+                    "ARR_TIME": {
+                        "type": "string"
+                    },
+                    "CRS_ARR_TIME": {
+                        "type": "string"
+                    },
+                    "CRS_DEP_TIME": {
+                        "type": "string"
+                    },
+                    "DAY_OF_MONTH": {
+                        "type": "long"
+                    },
+                    "DAY_OF_WEEK": {
+                        "type": "long"
+                    },
+                    "DEP_DELAY": {
+                        "type": "long"
+                    },
+                    "DEP_TIME": {
+                        "type": "string"
+                    },
+                    "DEST": {
+                        "type": "string"
+                    },
+                    "DEST_CITY_NAME": {
+                        "type": "string"
+                    },
+                    "DEST_STATE_NM": {
+                        "type": "string"
+                    },
+                    "MONTH": {
+                        "type": "long"
+                    },
+                    "ORIGIN": {
+                        "type": "string"
+                    },
+                    "ORIGIN_CITY_NAME": {
+                        "type": "string"
+                    },
+                    "ORIGIN_STATE_NM": {
+                        "type": "string"
+                    },
+                    "UNIQUE_CARRIER": {
+                        "type": "string"
+                    },
+                    "YEAR": {
+                        "type": "long"
+                    }
+                }
+            }
+        }
+    }
+}
