@@ -9,6 +9,7 @@ import java.io.Reader;
 import java.io.FileReader;
 import java.util.List;
 import java.util.Map;
+import java.util.GregorianCalendar;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
@@ -60,10 +61,13 @@ public class LoadCSV {
             e2.printStackTrace(System.out);
             System.exit(1);
         }
+
         for (CSVRecord record : parser) {
 
 // Create a key value that's unique
-            Put put = new Put(Bytes.toBytes(String.valueOf(count++)));
+            String row_key = record.get("UNIQUE_CARRIER") + "-" + record.get("FL_NUM") + "-" + record.get("YEAR")+
+                record.get("MONTH")+record.get("DAY_OF_MONTH");
+            Put put = new Put(Bytes.toBytes(row_key));
 
             put.add(Bytes.toBytes(TABLE_CF), Bytes.toBytes("ARR_TIME"), Bytes.toBytes(record.get("ARR_TIME")));
             put.add(Bytes.toBytes(TABLE_CF), Bytes.toBytes("CRS_ARR_TIME"), Bytes.toBytes(record.get("CRS_ARR_TIME")));
@@ -79,43 +83,56 @@ public class LoadCSV {
 
             try {
                 put.add(Bytes.toBytes(TABLE_CF), Bytes.toBytes("ACTUAL_ELAPSED_TIME"),
-                        Bytes.toBytes(Integer.getInteger(record.get("ACTUAL_ELAPSED_TIME")).longValue()));
+                        Bytes.toBytes(Long.parseLong(record.get("ACTUAL_ELAPSED_TIME"))));
             } catch (Exception e11) {}
 
             try {
                 put.add(Bytes.toBytes(TABLE_CF), Bytes.toBytes("AIR_TIME"),
-                        Bytes.toBytes(Integer.getInteger(record.get("AIR_TIME")).longValue()));
+                        Bytes.toBytes(Long.parseLong(record.get("AIR_TIME"))));
             } catch (Exception e12) {}
             try {
                 put.add(Bytes.toBytes(TABLE_CF), Bytes.toBytes("ARR_DELAY"),
-                        Bytes.toBytes(Integer.getInteger(record.get("ARR_DELAY")).longValue()));
+                        Bytes.toBytes(Long.parseLong(record.get("ARR_DELAY"))));
             } catch (Exception e13) {}
             try {
                 put.add(Bytes.toBytes(TABLE_CF), Bytes.toBytes("DAY_OF_MONTH"),
-                        Bytes.toBytes(Integer.getInteger(record.get("DAY_OF_MONTH")).longValue()));
+                        Bytes.toBytes(Long.parseLong(record.get("DAY_OF_MONTH"))));
             } catch (Exception e14) {}
             try {
                 put.add(Bytes.toBytes(TABLE_CF), Bytes.toBytes("DAY_OF_WEEK"),
-                        Bytes.toBytes(Integer.getInteger(record.get("DAY_OF_WEEK")).longValue()));
+                        Bytes.toBytes(Long.parseLong(record.get("DAY_OF_WEEK"))));
             } catch (Exception e15) {}
             try {
                 put.add(Bytes.toBytes(TABLE_CF), Bytes.toBytes("DEP_DELAY"),
-                        Bytes.toBytes(Integer.getInteger(record.get("DEP_DELAY")).longValue()));
+                        Bytes.toBytes(Long.parseLong(record.get("DEP_DELAY"))));
             } catch (Exception e16) {}
             try {
                 put.add(Bytes.toBytes(TABLE_CF), Bytes.toBytes("MONTH"),
-                        Bytes.toBytes(Integer.getInteger(record.get("MONTH")).longValue()));
+                        Bytes.toBytes(Long.parseLong(record.get("MONTH"))));
             } catch (Exception e17) {}
             try {
                 put.add(Bytes.toBytes(TABLE_CF), Bytes.toBytes("YEAR"),
-                        Bytes.toBytes(Integer.getInteger(record.get("YEAR")).longValue()));
+                        Bytes.toBytes(Long.parseLong(record.get("YEAR"))));
             } catch (Exception e18) {}
 
+// Try to construct a time field based on departure time
             try {
+
+                GregorianCalendar c = new GregorianCalendar(
+                    Integer.parseInt(record.get("YEAR")),
+                    Integer.parseInt(record.get("MONTH")),
+                    Integer.parseInt(record.get("DAY_OF_MONTH")),
+                    Integer.parseInt(record.get("CRS_DEP_TIME").substring(0,2)),
+                    Integer.parseInt(record.get("CRS_DEP_TIME").substring(2,4)));
+
+                put.add(Bytes.toBytes(TABLE_CF), Bytes.toBytes("DEPARTURE_TIME"),
+                        Bytes.toBytes((long)(c.getTimeInMillis() / 1000.0)));
+
                 table.put(put);
-                log.info("Record: " + count);
+                log.info("Record: " + row_key);
                 Thread.sleep(100);
             } catch (Exception e3) {
+                log.info("Record: " + row_key + " failed.");
                 e3.printStackTrace(System.out);
                 System.exit(1);
             }
