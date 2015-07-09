@@ -80,19 +80,21 @@ public class LoadCSV {
             put.add(Bytes.toBytes(TABLE_CF), Bytes.toBytes("ORIGIN_CITY_NAME"), Bytes.toBytes(record.get("ORIGIN_CITY_NAME")));
             put.add(Bytes.toBytes(TABLE_CF), Bytes.toBytes("ORIGIN_STATE_NM"), Bytes.toBytes(record.get("ORIGIN_STATE_NM")));
             put.add(Bytes.toBytes(TABLE_CF), Bytes.toBytes("UNIQUE_CARRIER"), Bytes.toBytes(record.get("UNIQUE_CARRIER")));
+            put.add(Bytes.toBytes(TABLE_CF), Bytes.toBytes("FL_NUM"), Bytes.toBytes(record.get("FL_NUM")));
+            put.add(Bytes.toBytes(TABLE_CF), Bytes.toBytes("FL_DATE"), Bytes.toBytes(record.get("FL_DATE")));
 
             try {
                 put.add(Bytes.toBytes(TABLE_CF), Bytes.toBytes("ACTUAL_ELAPSED_TIME"),
-                        Bytes.toBytes(Long.parseLong(record.get("ACTUAL_ELAPSED_TIME"))));
+                        Bytes.toBytes(Float.parseFloat(record.get("ACTUAL_ELAPSED_TIME"))));
             } catch (Exception e11) {}
 
             try {
                 put.add(Bytes.toBytes(TABLE_CF), Bytes.toBytes("AIR_TIME"),
-                        Bytes.toBytes(Long.parseLong(record.get("AIR_TIME"))));
+                        Bytes.toBytes(Float.parseFloat(record.get("AIR_TIME"))));
             } catch (Exception e12) {}
             try {
                 put.add(Bytes.toBytes(TABLE_CF), Bytes.toBytes("ARR_DELAY"),
-                        Bytes.toBytes(Long.parseLong(record.get("ARR_DELAY"))));
+                        Bytes.toBytes(Float.parseFloat(record.get("ARR_DELAY"))));
             } catch (Exception e13) {}
             try {
                 put.add(Bytes.toBytes(TABLE_CF), Bytes.toBytes("DAY_OF_MONTH"),
@@ -104,7 +106,7 @@ public class LoadCSV {
             } catch (Exception e15) {}
             try {
                 put.add(Bytes.toBytes(TABLE_CF), Bytes.toBytes("DEP_DELAY"),
-                        Bytes.toBytes(Long.parseLong(record.get("DEP_DELAY"))));
+                        Bytes.toBytes(Float.parseFloat(record.get("DEP_DELAY"))));
             } catch (Exception e16) {}
             try {
                 put.add(Bytes.toBytes(TABLE_CF), Bytes.toBytes("MONTH"),
@@ -122,10 +124,10 @@ public class LoadCSV {
                     Integer.parseInt(record.get("YEAR")),
                     Integer.parseInt(record.get("MONTH")),
                     Integer.parseInt(record.get("DAY_OF_MONTH")),
-                    Integer.parseInt(record.get("CRS_DEP_TIME").substring(0,2)),
-                    Integer.parseInt(record.get("CRS_DEP_TIME").substring(2,4)));
+                    Integer.parseInt(record.get("CRS_ARR_TIME").substring(0,2)),
+                    Integer.parseInt(record.get("CRS_ARR_TIME").substring(2,4)));
 
-                put.add(Bytes.toBytes(TABLE_CF), Bytes.toBytes("DEPARTURE_TIME"),
+                put.add(Bytes.toBytes(TABLE_CF), Bytes.toBytes("ARRIVAL_TIME"),
                         Bytes.toBytes((long)(c.getTimeInMillis() / 1000.0)));
 
                 table.put(put);

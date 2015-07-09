@@ -3,14 +3,17 @@
         "properties": {
             "cf1": {
                 "properties": {
+                    "ARRIVAL_TIME": {
+                        "type": "date"
+                    },
                     "ACTUAL_ELAPSED_TIME": {
-                        "type": "long"
+                        "type": "float"
                     },
                     "AIR_TIME": {
-                        "type": "long"
+                        "type": "float"
                     },
                     "ARR_DELAY": {
-                        "type": "long"
+                        "type": "float"
                     },
                     "ARR_TIME": {
                         "type": "string"
@@ -28,7 +31,7 @@
                         "type": "long"
                     },
                     "DEP_DELAY": {
-                        "type": "long"
+                        "type": "float"
                     },
                     "DEP_TIME": {
                         "type": "string"
@@ -55,6 +58,9 @@
                         "type": "string"
                     },
                     "UNIQUE_CARRIER": {
+                        "type": "string"
+                    },
+                    "FL_NUM": {
                         "type": "string"
                     },
                     "YEAR": {
