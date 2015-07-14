@@ -127,7 +127,7 @@ public class LoadCSV {
                     Integer.parseInt(record.get("CRS_ARR_TIME").substring(0,2)),
                     Integer.parseInt(record.get("CRS_ARR_TIME").substring(2,4)));
 
-                put.add(Bytes.toBytes(TABLE_CF), Bytes.toBytes("ARRIVAL_TIME"),
+                put.add(Bytes.toBytes(TABLE_CF), Bytes.toBytes("@timestamp"),
                         Bytes.toBytes((long)(c.getTimeInMillis() / 1000.0)));
 
                 table.put(put);
